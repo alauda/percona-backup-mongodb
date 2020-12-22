@@ -4,7 +4,7 @@ COPY . .
 RUN make install
 
 
-FROM registry.access.redhat.com/ubi7/ubi-minimal
+FROM registry.access.redhat.com/ubi8/ubi-minimal
 
 LABEL name="Percona Backup for MongoDB" \
     vendor="Percona" \
