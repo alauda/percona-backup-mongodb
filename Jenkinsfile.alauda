@@ -1,0 +1,29 @@
+library "alauda-cicd"
+def language = "golang"
+AlaudaPipeline {
+    config = [
+        agent: 'golang-1.14',
+        folder: '.',
+        scm: [
+            credentials: 'alaudabot-gitlab'
+        ],
+        docker: [
+            repository: "middleware/percona-backup-mongodb",
+            credentials: "tdsql-harbor-b",
+            context: ".",
+            dockerfile: "docker/Dockerfile.k8s",
+            enabled: true,
+            armBuild: true
+        ],
+        sonar: [
+            binding: "sonarqube",
+            enabled: true
+        ],
+    ]
+    env = [
+        GO111MODULE: "on",
+        GOPROXY: "https://athens.alauda.cn,https://goproxy.cn,direct",
+        CGO_ENABLED: "0",
+        GOOS: "linux",
+    ]
+}
