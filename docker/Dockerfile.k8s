@@ -31,7 +31,7 @@ RUN set -ex; \
     microdnf install -y \
         findutils \
         jq-1.5-12.el8 \
-        oniguruma-6.8.2-2.el8 \
+        oniguruma-6.8.2-2.el8; \
     microdnf clean all;
 
 # check repository package signature in secure way
