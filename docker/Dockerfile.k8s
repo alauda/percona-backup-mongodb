@@ -28,9 +28,10 @@ RUN export KUBEARCH=`echo ${TARGETPLATFORM} | awk -F "/" -- '{print $2}'`; \
 
 RUN set -ex; \
     microdnf update; \
-    microdnf install -y jq-1.6-2.el7\
+    microdnf install -y \
         findutils \
-        oniguruma-6.8.2-1.el7 \
+        jq-1.5-12.el8 \
+        oniguruma-6.8.2-2.el8 \
         percona-server-mongodb-shell; \
     microdnf clean all;
 
