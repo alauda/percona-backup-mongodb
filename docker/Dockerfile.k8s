@@ -49,8 +49,8 @@ RUN set -ex; \
     rpm --import /etc/pki/rpm-gpg/PERCONA-PACKAGING-KEY; \
     percona-release enable psmdb-42 release; \
     microdnf update; \
-    microdnf install -y percona-server-mongodb-shell
-    microdnf clean all;
+    microdnf install -y percona-server-mongodb-shell; \
+    microdnf clean all
 
 COPY --from=0 /go/bin/pbm /go/bin/pbm-agent /go/bin/pbm-speed-test /usr/local/bin/
 COPY ./docker/start-agent.sh /start-agent.sh
