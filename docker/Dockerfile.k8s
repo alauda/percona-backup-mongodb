@@ -45,11 +45,9 @@ RUN set -ex; \
     rpm -i /tmp/percona-release.rpm; \
     rm -rf "$GNUPGHOME" /tmp/percona-release.rpm; \
     rpm --import /etc/pki/rpm-gpg/PERCONA-PACKAGING-KEY; \
-    percona-release enable psmdb-42 release; \
-    microdnf update; \
-    microdnf install -y percona-server-mongodb-shell; \
-    microdnf clean all
+    percona-release enable psmdb-42 release
 
+COPY --from=harbor.alauda.cn/tdsql/percona-server-mongodb-15:latest /usr/bin/mongo /usr/bin/mongo
 COPY --from=0 /go/bin/pbm /go/bin/pbm-agent /go/bin/pbm-speed-test /usr/local/bin/
 COPY ./docker/start-agent.sh /start-agent.sh
 

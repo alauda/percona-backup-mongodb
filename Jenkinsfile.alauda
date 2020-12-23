@@ -8,7 +8,7 @@ AlaudaPipeline {
             credentials: 'alaudabot-gitlab'
         ],
         docker: [
-            repository: "middleware/percona-backup-mongodb",
+            repository: "tdsql/percona-backup-mongodb",
             credentials: "tdsql-harbor-b",
             context: ".",
             dockerfile: "docker/Dockerfile.k8s",
