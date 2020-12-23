@@ -26,6 +26,14 @@ RUN export KUBEARCH=`echo ${TARGETPLATFORM} | awk -F "/" -- '{print $2}'`; \
     && curl -Lf  -o /licenses/LICENSE.kubectl \
         https://raw.githubusercontent.com/kubernetes/kubectl/master/LICENSE
 
+RUN set -ex; \
+    microdnf update; \
+    microdnf install -y jq-1.6-2.el7\
+        findutils \
+        oniguruma-6.8.2-1.el7 \
+        percona-server-mongodb-shell; \
+    microdnf clean all;
+
 # check repository package signature in secure way
 RUN set -ex; \
     export GNUPGHOME="$(mktemp -d)"; \
@@ -40,13 +48,6 @@ RUN set -ex; \
     rm -rf "$GNUPGHOME" /tmp/percona-release.rpm; \
     rpm --import /etc/pki/rpm-gpg/PERCONA-PACKAGING-KEY; \
     percona-release enable psmdb-42 release
-
-RUN set -ex; \
-    microdnf update; \
-    microdnf install -y jq-1.6-2.el7\
-        oniguruma-6.8.2-1.el7 \
-        percona-server-mongodb-shell; \
-    microdnf clean all;
 
 COPY --from=0 /go/bin/pbm /go/bin/pbm-agent /go/bin/pbm-speed-test /usr/local/bin/
 COPY ./docker/start-agent.sh /start-agent.sh
