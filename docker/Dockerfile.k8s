@@ -4,7 +4,7 @@ COPY . .
 RUN make install
 
 
-FROM harbor-b.alauda.cn/base/ubi-minimal:8
+FROM build-harbor.alauda.cn/ops/ubi8-minimal:8.4-208
 
 LABEL name="Percona Backup for MongoDB" \
     vendor="Percona" \
@@ -32,22 +32,7 @@ RUN set -ex; \
         oniguruma-6.8.2-2.el8; \
     microdnf clean all;
 
-# check repository package signature in secure way
-RUN set -ex; \
-    export GNUPGHOME="$(mktemp -d)"; \
-    gpg --batch --keyserver keyserver.ubuntu.com --recv-keys 430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A; \
-    \
-    gpg --batch --export --armor 430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A > ${GNUPGHOME}/RPM-GPG-KEY-Percona; \
-    rpmkeys --import ${GNUPGHOME}/RPM-GPG-KEY-Percona; \
-    \
-    curl -Lf -o /tmp/percona-release.rpm https://repo.percona.com/yum/percona-release-latest.noarch.rpm; \
-    rpmkeys --checksig /tmp/percona-release.rpm; \
-    rpm -i /tmp/percona-release.rpm; \
-    rm -rf "$GNUPGHOME" /tmp/percona-release.rpm; \
-    rpm --import /etc/pki/rpm-gpg/PERCONA-PACKAGING-KEY; \
-    percona-release enable psmdb-42 release
-
-COPY --from=harbor-b.alauda.cn/tdsql/percona-server-mongodb-15:mongo-acp-main-4.2-b1-1de7710.0 /usr/bin/mongo /usr/bin/mongo
+COPY --from=build-harbor.alauda.cn/middleware/percona-server-mongodb:v4.2.11-mongodb /usr/bin/mongo /usr/bin/mongo
 COPY --from=0 /go/bin/pbm /go/bin/pbm-agent /go/bin/pbm-speed-test /usr/local/bin/
 COPY ./docker/start-agent.sh /start-agent.sh
 
