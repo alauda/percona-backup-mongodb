@@ -25,7 +25,6 @@ RUN export KUBEARCH=`echo ${TARGETPLATFORM} | awk -F "/" -- '{print $2}'`; \
     && chmod +x /usr/bin/kubectl
 
 RUN set -ex; \
-    microdnf update; \
     microdnf install -y \
         findutils \
         jq-1.5-12.el8 \
