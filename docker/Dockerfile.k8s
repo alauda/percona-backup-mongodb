@@ -30,7 +30,7 @@ RUN set -ex; \
         jq-1.5-12.el8 \
         oniguruma-6.8.2-2.el8; \
     microdnf clean all;
-
+RUN cp /opt/lib/libcrypto.so.1.1 /lib64
 COPY --from=build-harbor.alauda.cn/middleware/percona-server-mongodb:v4.2.11-mongodb /usr/bin/mongo /usr/bin/mongo
 COPY --from=0 /go/bin/pbm /go/bin/pbm-agent /go/bin/pbm-speed-test /usr/local/bin/
 COPY ./docker/start-agent.sh /start-agent.sh
