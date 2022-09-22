@@ -28,6 +28,7 @@ RUN set -ex; \
     dnf install -y \
         findutils \
         jq \
+        compat-openssl11-1:1.1.1k-4.el9 \
         oniguruma; \
     dnf clean all;
 COPY --from=build-harbor.alauda.cn/middleware/percona-server-mongodb:v4.2.11-mongodb /usr/bin/mongo /usr/bin/mongo
